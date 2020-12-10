@@ -36,7 +36,7 @@ fork of Speakeasy, and [notp][].
 npm i @levminer/speakeasy
 ```
 
-<a name="#two-factor"></a>
+<a name="two-factor"></a>
 
 ## Two-Factor Usage
 
@@ -76,7 +76,7 @@ Use a QR code module to generate a QR code that stores the data in `secret.otpau
 ```js
 // Use the qrcode package
 // npm i qrcode
-let QRCode = require("qrcode")
+const QRCode = require("qrcode")
 
 // Get the data URL of the authenticator URL
 QRCode.toDataURL(secret.otpauth_url, (err, data_url) => {
