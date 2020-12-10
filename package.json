@@ -1,0 +1,40 @@
+{
+	"name": "@levminer/speakeasy",
+	"description": "Two-factor authentication for Node.js. Generate One-time passcode generator (HOTP/TOTP) with support for Google Authenticator.",
+	"version": "1.0.0",
+	"homepage": "http://github.com/Levminer/speakeasy",
+	"bugs": "https://github.com/Levminer/speakeasy/issues",
+	"keywords": [
+		"two-factor authentication",
+		"google authenticator",
+		"one-time password",
+		"authentication",
+		"multi-factor",
+		"two factor",
+		"totp",
+		"2fa"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Levminer/speakeasy.git"
+	},
+	"main": "main.js",
+	"dependencies": {
+		"base32.js": "0.1.0"
+	},
+	"devDependencies": {
+		"eslint": "^7.15.0",
+		"eslint-config-node": "^4.1.0",
+		"eslint-config-prettier": "^7.0.0",
+		"eslint-config-promise": "^2.0.2",
+		"eslint-config-standard": "^16.0.2",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-prettier": "^3.2.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"prettier": "^2.2.1"
+	},
+	"scripts": {
+		"lint": "eslint --fix."
+	}
+}
