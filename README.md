@@ -36,6 +36,8 @@ fork of Speakeasy, and [notp][].
 npm i @levminer/speakeasy
 ```
 
+<a name="#two-factor"></a>
+
 ## Two-Factor Usage
 
 Let's say you have a user that wants to enable two-factor authentication, and you intend to do two-factor authentication using an app like Google Authenticator, Duo Security, Authy, etc. This is a three-step process:

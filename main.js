@@ -34,7 +34,9 @@ exports.digest = digest = (options) => {
 	}
 
 	// convert secret to buffer
-	secret = encoding === "base32" ? Buffer.alloc(base32.decode(secret)) : Buffer.alloc(secret, encoding)
+	if (!Buffer.isBuffer(secret)) {
+		secret = encoding === "base32" ? Buffer.alloc(base32.decode(secret)) : Buffer.alloc(secret, encoding)
+	}
 
 	let secret_buffer_size
 	if (algorithm === "sha1") {
