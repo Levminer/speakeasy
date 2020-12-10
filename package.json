@@ -1,7 +1,7 @@
 {
 	"name": "@levminer/speakeasy",
 	"description": "Two-factor authentication for Node.js. Generate One-time passcode generator (HOTP/TOTP) with support for Google Authenticator.",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"homepage": "http://github.com/Levminer/speakeasy",
 	"bugs": "https://github.com/Levminer/speakeasy/issues",
 	"keywords": [

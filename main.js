@@ -29,7 +29,7 @@ exports.digest = digest = (options) => {
 
 	// Backwards compatibility - deprecated
 	if (options.key != null) {
-		console.warn("Speakeasy - Deprecation Notice - Specifying the secret using `key` is no longer supported. Use `secret` instead.")
+		console.error("@levminer/speakeasy - Deprecation Notice - Specifying the secret using `key` is no longer supported. Use `secret` instead.")
 		secret = options.key
 	}
 
@@ -46,7 +46,9 @@ exports.digest = digest = (options) => {
 	} else if (algorithm === "sha512") {
 		secret_buffer_size = 64 // 64 bytes
 	} else {
-		console.warn(`Speakeasy - The algorithm provided (\`${algorithm}\`) is not officially supported, results may be different than expected.`)
+		console.error(
+			`@levminer/speakeasy - The algorithm provided (\`${algorithm}\`) is not officially supported, results may be different than expected.`
+		)
 	}
 
 	// The secret for sha1, sha256 and sha512 needs to be a fixed number of bytes for the one-time-password to be calculated correctly
@@ -109,19 +111,21 @@ exports.hotp = hotpGenerate = (options) => {
 
 	if (key === null || typeof key === "undefined") {
 		if (secret === null || typeof secret === "undefined") {
-			throw new Error("Speakeasy - hotp - Missing secret")
+			throw new Error("@levminer/speakeasy - hotp - Missing secret")
 		}
 	}
 
 	if (counter === null || typeof counter === "undefined") {
-		throw new Error("Speakeasy - hotp - Missing counter")
+		throw new Error("@levminer/speakeasy - hotp - Missing counter")
 	}
 
 	// unpack digits
 	// backward compatibility: `length` is also accepted here, but deprecated
 	const digits = (options.digits != null ? options.digits : options.length) || 6
 	if (options.length != null)
-		console.warn("Speakeasy - Deprecation Notice - Specifying token digits using `length` is no longer supported. Use `digits` instead.")
+		console.error(
+			"@levminer/speakeasy - Deprecation Notice - Specifying token digits using `length` is no longer supported. Use `digits` instead."
+		)
 
 	// digest the options
 	const digest = options.digest || exports.digest(options)
@@ -189,8 +193,8 @@ exports.hotp.verifyDelta = hotpVerifyDelta = (options) => {
 	// verify secret and token exist
 	const secret = options.secret
 	let token = options.token
-	if (secret === null || typeof secret === "undefined") throw new Error("Speakeasy - hotp.verifyDelta - Missing secret")
-	if (token === null || typeof token === "undefined") throw new Error("Speakeasy - hotp.verifyDelta - Missing token")
+	if (secret === null || typeof secret === "undefined") throw new Error("@levminer/@levminer/speakeasy - hotp.verifyDelta - Missing secret")
+	if (token === null || typeof token === "undefined") throw new Error("@levminer/@levminer/speakeasy - hotp.verifyDelta - Missing token")
 
 	token = String(options.token)
 	const digits = parseInt(options.digits, 10) || 6
@@ -278,7 +282,9 @@ exports._counter = _counter = (options) => {
 	// also accepts 'initial_time', but deprecated
 	const epoch = (options.epoch != null ? options.epoch * 1000 : options.initial_time * 1000) || 0
 	if (options.initial_time != null)
-		console.warn("Speakeasy - Deprecation Notice - Specifying the epoch using `initial_time` is no longer supported. Use `epoch` instead.")
+		console.error(
+			"@levminer/@levminer/speakeasy - Deprecation Notice - Specifying the epoch using `initial_time` is no longer supported. Use `epoch` instead."
+		)
 
 	return Math.floor((time - epoch) / step / 1000)
 }
@@ -327,7 +333,7 @@ exports.totp = totpGenerate = (options) => {
 	const secret = options.secret
 	if (key === null || typeof key === "undefined") {
 		if (secret === null || typeof secret === "undefined") {
-			throw new Error("Speakeasy - totp - Missing secret")
+			throw new Error("@levminer/@levminer/speakeasy - totp - Missing secret")
 		}
 	}
 
@@ -393,8 +399,8 @@ exports.totp.verifyDelta = totpVerifyDelta = (options) => {
 	// verify secret and token exist
 	const secret = options.secret
 	const token = options.token
-	if (secret === null || typeof secret === "undefined") throw new Error("Speakeasy - totp.verifyDelta - Missing secret")
-	if (token === null || typeof token === "undefined") throw new Error("Speakeasy - totp.verifyDelta - Missing token")
+	if (secret === null || typeof secret === "undefined") throw new Error("@levminer/@levminer/speakeasy - totp.verifyDelta - Missing secret")
+	if (token === null || typeof token === "undefined") throw new Error("@levminer/@levminer/speakeasy - totp.verifyDelta - Missing token")
 
 	// unpack options
 	const window = parseInt(options.window, 10) || 0
@@ -517,8 +523,8 @@ exports.generateSecret = generateSecret = (options) => {
 
 	// generate some qr codes if requested
 	if (qr_codes) {
-		console.warn(
-			"Speakeasy - Deprecation Notice - generateSecret() QR codes are deprecated and no longer supported. Please use your own QR code implementation."
+		console.error(
+			"@levminer/@levminer/speakeasy - Deprecation Notice - generateSecret() QR codes are deprecated and no longer supported. Please use your own QR code implementation."
 		)
 		SecretKey.qr_code_ascii = `https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=${encodeURIComponent(SecretKey.ascii)}`
 		SecretKey.qr_code_hex = `https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=${encodeURIComponent(SecretKey.hex)}`
@@ -536,8 +542,8 @@ exports.generateSecret = generateSecret = (options) => {
 
 	// generate a QR code for use in Google Authenticator if requested
 	if (google_auth_qr) {
-		console.warn(
-			"Speakeasy - Deprecation Notice - generateSecret() Google Auth QR code is deprecated and no longer supported. Please use your own QR code implementation."
+		console.error(
+			"@levminer/@levminer/speakeasy - Deprecation Notice - generateSecret() Google Auth QR code is deprecated and no longer supported. Please use your own QR code implementation."
 		)
 		SecretKey.google_auth_qr = `https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=${encodeURIComponent(
 			exports.otpauthURL({ secret: SecretKey.base32, label: name })
@@ -550,7 +556,7 @@ exports.generateSecret = generateSecret = (options) => {
 // Backwards compatibility - generate_key is deprecated
 exports.generate_key = util.deprecate((options) => {
 	return exports.generateSecret(options)
-}, "Speakeasy - Deprecation Notice - `generate_key()` is depreciated, please use `generateSecret()` instead.")
+}, "@levminer/@levminer/speakeasy - Deprecation Notice - `generate_key()` is depreciated, please use `generateSecret()` instead.")
 
 /**
  * Generates a key of a certain length (default 32) from A-Z, a-z, 0-9, and
@@ -577,7 +583,7 @@ exports.generateSecretASCII = generateSecretASCII = (length, symbols) => {
 // Backwards compatibility - generate_key_ascii is deprecated
 exports.generate_key_ascii = util.deprecate((length, symbols) => {
 	return exports.generateSecretASCII(length, symbols)
-}, "Speakeasy - Deprecation Notice - `generate_key_ascii()` is depreciated, please use `generateSecretASCII()` instead.")
+}, "@levminer/@levminer/speakeasy - Deprecation Notice - `generate_key_ascii()` is depreciated, please use `generateSecretASCII()` instead.")
 
 /**
  * Generate a Google Authenticator-compatible otpauth:// URL for passing the
@@ -637,16 +643,16 @@ exports.otpauthURL = otpauthURL = (options) => {
 		case "hotp":
 			break
 		default:
-			throw new Error(`Speakeasy - otpauthURL - Invalid type \`${type}\`; must be \`hotp\` or \`totp\``)
+			throw new Error(`@levminer/@levminer/speakeasy - otpauthURL - Invalid type \`${type}\`; must be \`hotp\` or \`totp\``)
 	}
 
 	// validate required options
-	if (!secret) throw new Error("Speakeasy - otpauthURL - Missing secret")
-	if (!label) throw new Error("Speakeasy - otpauthURL - Missing label")
+	if (!secret) throw new Error("@levminer/@levminer/speakeasy - otpauthURL - Missing secret")
+	if (!label) throw new Error("@levminer/@levminer/speakeasy - otpauthURL - Missing label")
 
 	// require counter for HOTP
 	if (type === "hotp" && (counter === null || typeof counter === "undefined")) {
-		throw new Error("Speakeasy - otpauthURL - Missing counter value for HOTP")
+		throw new Error("@levminer/@levminer/speakeasy - otpauthURL - Missing counter value for HOTP")
 	}
 
 	// convert secret to base32
@@ -668,7 +674,7 @@ exports.otpauthURL = otpauthURL = (options) => {
 			case "SHA512":
 				break
 			default:
-				console.warn("Speakeasy - otpauthURL - Warning - Algorithm generally should be SHA1, SHA256, or SHA512")
+				console.error("@levminer/@levminer/speakeasy - otpauthURL - Warning - Algorithm generally should be SHA1, SHA256, or SHA512")
 		}
 		query.algorithm = algorithm.toUpperCase()
 	}
@@ -676,14 +682,14 @@ exports.otpauthURL = otpauthURL = (options) => {
 	// validate digits
 	if (digits != null) {
 		if (isNaN(digits)) {
-			throw new Error(`Speakeasy - otpauthURL - Invalid digits \`${digits}\``)
+			throw new Error(`@levminer/@levminer/speakeasy - otpauthURL - Invalid digits \`${digits}\``)
 		} else {
 			switch (parseInt(digits, 10)) {
 				case 6:
 				case 8:
 					break
 				default:
-					console.warn("Speakeasy - otpauthURL - Warning - Digits generally should be either 6 or 8")
+					console.error("@levminer/@levminer/speakeasy - otpauthURL - Warning - Digits generally should be either 6 or 8")
 			}
 		}
 		query.digits = digits
@@ -693,7 +699,7 @@ exports.otpauthURL = otpauthURL = (options) => {
 	if (period != null) {
 		period = parseInt(period, 10)
 		if (~~period !== period) {
-			throw new Error(`Speakeasy - otpauthURL - Invalid period \`${period}\``)
+			throw new Error(`@levminer/@levminer/speakeasy - otpauthURL - Invalid period \`${period}\``)
 		}
 		query.period = period
 	}
