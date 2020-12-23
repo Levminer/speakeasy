@@ -18,7 +18,7 @@ const util = require("util")
  * @return {Buffer} The one-time passcode as a buffer.
  */
 
-exports.digest = function digest(options) {
+exports.digest = digest = (options) => {
 	let i
 
 	// unpack options
@@ -82,7 +82,7 @@ exports.digest = function digest(options) {
  * @return {String} The one-time passcode.
  */
 
-exports.hotp = function hotpGenerate(options) {
+exports.hotp = hotpGenerate = (options) => {
 	// unpack digits
 	// backward compatibility: `length` is also accepted here, but deprecated
 	const digits = (options.digits != null ? options.digits : options.length) || 6
@@ -148,7 +148,7 @@ exports.counter = exports.hotp
  * @global
  */
 
-exports.hotp.verifyDelta = function hotpVerifyDelta(options) {
+exports.hotp.verifyDelta = hotpVerifyDelta = (options) => {
 	let i
 
 	// shadow options
@@ -212,7 +212,7 @@ exports.hotp.verifyDelta = function hotpVerifyDelta(options) {
  * @method hotp․verify
  * @global
  */
-exports.hotp.verify = function hotpVerify(options) {
+exports.hotp.verify = hotpVerify = (options) => {
 	return exports.hotp.verifyDelta(options) != null
 }
 
@@ -234,7 +234,7 @@ exports.hotp.verify = function hotpVerify(options) {
  * @private
  */
 
-exports._counter = function _counter(options) {
+exports._counter = _counter = (options) => {
 	const step = options.step || 30
 	const time = options.time != null ? options.time * 1000 : Date.now()
 
@@ -283,7 +283,7 @@ exports._counter = function _counter(options) {
  * @return {String} The one-time passcode.
  */
 
-exports.totp = function totpGenerate(options) {
+exports.totp = totpGenerate = (options) => {
 	// shadow options
 	options = Object.create(options)
 
@@ -343,7 +343,7 @@ exports.time = exports.totp
  * @global
  */
 
-exports.totp.verifyDelta = function totpVerifyDelta(options) {
+exports.totp.verifyDelta = totpVerifyDelta = (options) => {
 	// shadow options
 	options = Object.create(options)
 
@@ -399,7 +399,7 @@ exports.totp.verifyDelta = function totpVerifyDelta(options) {
  * @method totp․verify
  * @global
  */
-exports.totp.verify = function totpVerify(options) {
+exports.totp.verify = totpVerify = (options) => {
 	return exports.totp.verifyDelta(options) != null
 }
 
@@ -440,7 +440,7 @@ exports.totp.verify = function totpVerify(options) {
  * @return {Object}
  * @return {GeneratedSecret} The generated secret key.
  */
-exports.generateSecret = function generateSecret(options) {
+exports.generateSecret = generateSecret = (options) => {
 	// options
 	if (!options) options = {}
 	const length = options.length || 32
@@ -508,7 +508,7 @@ exports.generate_key = util.deprecate((options) => {
  * @param  {Boolean} [symbols=false] Whether to include symbols in the key.
  * @return {String} The generated key.
  */
-exports.generateSecretASCII = function generateSecretASCII(length, symbols) {
+exports.generateSecretASCII = generateSecretASCII = (length, symbols) => {
 	const bytes = crypto.randomBytes(length || 32)
 	let set = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz"
 	if (symbols) {
@@ -567,7 +567,7 @@ exports.generate_key_ascii = util.deprecate((length, symbols) => {
  * @see https://github.com/google/google-authenticator/wiki/Key-Uri-Format
  */
 
-exports.otpauthURL = function otpauthURL(options) {
+exports.otpauthURL = otpauthURL = (options) => {
 	// unpack options
 	let secret = options.secret
 	const label = options.label
