@@ -461,8 +461,8 @@ exports.generateSecret = generateSecret = (options) => {
 	// return a SecretKey with ascii, hex, and base32
 	const SecretKey = {}
 	SecretKey.ascii = key
-	SecretKey.hex = Buffer.alloc(key, "ascii").toString("hex")
-	SecretKey.base32 = base32.encode(Buffer.alloc(key)).toString().replace(/=/g, "")
+	SecretKey.hex = Buffer.from(key, "ascii").toString("hex")
+	SecretKey.base32 = base32.encode(Buffer.from(key)).toString().replace(/=/g, "")
 
 	// generate some qr codes if requested
 	if (qr_codes) {
@@ -598,7 +598,7 @@ exports.otpauthURL = otpauthURL = (options) => {
 	}
 
 	// convert secret to base32
-	if (encoding !== "base32") secret = Buffer.alloc(secret, encoding)
+	if (encoding !== "base32") secret = Buffer.from(secret, encoding)
 	if (Buffer.isBuffer(secret)) secret = base32.encode(secret)
 
 	// build query while validating
