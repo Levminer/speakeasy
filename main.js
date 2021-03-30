@@ -431,6 +431,8 @@ exports.totp.verify = totpVerify = (options) => {
  *   Authenticator-compatible otpauth:// URL (only returns otpauth:// URL, no
  *   QR code)
  * @param {String} [options.name] The name to use with Google Authenticator.
+ * @param {String} [options.issuer] The provider or service with which the
+ *   secret key is associated.
  * @param {Boolean} [options.qr_codes=false] (DEPRECATED. Do not use to prevent
  *   leaking of secret to a third party. Use your own QR code implementation.)
  *   Output QR code URLs for the token.
@@ -445,6 +447,7 @@ exports.generateSecret = generateSecret = (options) => {
 	if (!options) options = {}
 	const length = options.length || 32
 	const name = encodeURIComponent(options.name || "SecretKey")
+	const issuer = options.issuer
 	const qr_codes = options.qr_codes || false
 	const google_auth_qr = options.google_auth_qr || false
 	const otpauth_url = options.otpauth_url != null ? options.otpauth_url : true
@@ -479,6 +482,7 @@ exports.generateSecret = generateSecret = (options) => {
 		SecretKey.otpauth_url = exports.otpauthURL({
 			secret: SecretKey.ascii,
 			label: name,
+			issuer: issuer,
 		})
 	}
 
@@ -570,7 +574,7 @@ exports.generate_key_ascii = util.deprecate((length, symbols) => {
 exports.otpauthURL = otpauthURL = (options) => {
 	// unpack options
 	let secret = options.secret
-	const label = options.label
+	let label = options.label
 	const issuer = options.issuer
 	const type = (options.type || "totp").toLowerCase()
 	const counter = options.counter
@@ -603,7 +607,10 @@ exports.otpauthURL = otpauthURL = (options) => {
 
 	// build query while validating
 	const query = { secret: secret }
-	if (issuer) query.issuer = issuer
+	if (issuer) {
+		query.issuer = issuer
+		label = `${issuer}:${label}`
+	}
 
 	// validate algorithm
 	if (algorithm != null) {

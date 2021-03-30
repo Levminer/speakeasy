@@ -2,15 +2,17 @@
 
 -   This is a fork of the original speakeasy. I'm just modernized and fixed some stuff:
 
--   Use Buffer.alloc() instead new Buffer
+1. Use Buffer.alloc() and Buffer.from() instead deprecated new Buffer
 
--   ES6 syntax: let, const, arrow functions
+1. ES6 syntax: let, const, arrow functions
 
--   Fixed some known bugs
+1. Fixed some known bugs
+
+1. Import syntax
 
 ---
 
-**Jump to** — [Install](#install) · [Two-Factor Usage](#two-factor) · [General Usage](#general-usage) · [Documentation](#documentation) · [Contributing](#contributing) · [License](#license)
+**Jump to** — [Install](#install) · [General Usage](#general-usage) · [Documentation](#documentation) · [Contributing](#contributing) · [License](#license)
 
 ---
 
@@ -36,98 +38,16 @@ fork of Speakeasy, and [notp][].
 npm i @levminer/speakeasy
 ```
 
-<a name="two-factor"></a>
-
-## Two-Factor Usage
-
-Let's say you have a user that wants to enable two-factor authentication, and you intend to do two-factor authentication using an app like Google Authenticator, Duo Security, Authy, etc. This is a three-step process:
-
-1. Generate a secret
-2. Show a QR code for the user to scan in
-3. Authenticate the token for the first time
-
-### Generating a key
-
-Use Speakeasy's key generator to get a key.
-
-```js
-let secret = speakeasy.generateSecret()
-// Returns an object with secret.ascii, secret.hex, and secret.base32.
-// Also returns secret.otpauth_url, which we'll use later.
-```
-
-This will generate a secret key of length 32, which will be the secret key for the user.
-
-Now, we want to make sure that this secret works by validating the token that the user gets from it for the first time. In other words, we don't want to set this as the user's secret key just yet – we first want to verify their token for the first time. We need to persist the secret so that we can use it for token validation later.
-
-So, store one of the encodings for the secret, preferably `secret.base32`, somewhere temporary, since we'll use that in the future to authenticate the user's first token.
-
-```js
-// Example for storing the secret key somewhere (varies by implementation):
-user.two_factor_temp_secret = secret.base32
-```
-
-### Displaying a QR code
-
-Next, we'll want to display a QR code to the user so they can scan in the secret into their app. Google Authenticator and similar apps take in a QR code that holds a URL with the protocol `otpauth://`, which you get automatically from `secret.otpauth_url`.
-
-Use a QR code module to generate a QR code that stores the data in `secret.otpauth_url`, and then display the QR code to the user. This is one simple way to do it, which generates a PNG data URL which you can put into an `<img>` tag on a webpage:
-
-```js
-// Use the qrcode package
-// npm i qrcode
-const QRCode = require("qrcode")
-
-// Get the data URL of the authenticator URL
-QRCode.toDataURL(secret.otpauth_url, (err, data_url) => {
-	console.log(data_url)
-
-	// Display this data URL to the user in an <img> tag
-	// Example:
-	write('<img src="' + data_url + '">')
-})
-```
-
-Ask the user to scan this QR code into their authenticator app.
-
-### Verifying the token
-
-Finally, we want to make sure that the token on the server side and the token on the client side match. The best practice is to do a token check before fully enabling two-factor authenticaton for the user. This code applies to the first and subsequent token checks.
-
-After the user scans the QR code, ask the user to enter in the token that they see in their app. Then, verify it against the secret.
-
-```js
-// Let's say the user says that the token they have is 132890
-let userToken = "132890"
-
-// Let's say we stored the user's temporary secret in a user object like above:
-// (This is specific to your implementation)
-let base32secret = user.two_factor_temp_secret
-```
-
-```js
-// Use verify() to check the token against the secret
-let verified = speakeasy.totp.verify({ secret: base32secret, encoding: "base32", token: userToken })
-```
-
-`verified` will be true if the token is successfully verified, false if not.
-
-If successfully verified, you can now save the secret to the user's account and use the same process above whenever you need to use two-factor to authenticate the user, like during login.
-
-```js
-// Example for saving user's token (varies by implementation):
-user.two_factor_secret = user.two_factor_temp_secret
-user.two_factor_enabled = true
-```
-
-Now you're done implementing two-factor authentication!
-
 <a name="general-usage"></a>
 
 ## General Usage
 
 ```js
+//require
 const speakeasy = require("@levminer/speakeasy")
+
+//import
+import speakeasy from "@levminer/speakeasy"
 ```
 
 #### Generating a key
