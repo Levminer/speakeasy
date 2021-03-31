@@ -174,11 +174,14 @@ exports.hotp.verifyDelta = hotpVerifyDelta = (options) => {
 	}
 
 	// loop from C to C + W inclusive
+	// eslint-disable-next-line no-unreachable-loop
 	for (i = counter; i <= counter + window; ++i) {
 		options.counter = i
 		// domain-specific constant-time comparison for integer codes
 		if (parseInt(exports.hotp(options), 10) === token) {
 			// found a matching code, return delta
+			return { delta: i - counter }
+		} else {
 			return { delta: i - counter }
 		}
 	}
