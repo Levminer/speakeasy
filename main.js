@@ -174,6 +174,9 @@ exports.hotp.verifyDelta = hotpVerifyDelta = (options) => {
 	}
 
 	// loop from C to C + W inclusive
+
+	// this is a temporary fix becaouse wrong codes return a value too
+	// FIX THIS LATER
 	// eslint-disable-next-line no-unreachable-loop
 	for (i = counter; i <= counter + window; ++i) {
 		options.counter = i
