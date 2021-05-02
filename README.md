@@ -12,6 +12,10 @@
 
 ---
 
+## Are you looking for a desktop cross platform two-factor authentication app? Check out: [Authme](https://github.com/levminer/authme)
+
+---
+
 **Jump to** — [Install](#install) · [General Usage](#general-usage) · [Documentation](#documentation) · [Contributing](#contributing) · [License](#license)
 
 ---
@@ -295,12 +299,6 @@ As shown previously, you can also change `verifyDelta()` to `verify()` to simply
 <a name="documentation"></a>
 
 ## Documentation
-
-Full API documentation (in JSDoc format) is available below and at http://speakeasyjs.github.io/speakeasy/
-
-<a href="http://speakeasyjs.github.io/speakeasy/"><img src="http://i.imgur.com/hD9w41T.png" height="43"></a>
-
-### Functions
 
 <dl>
 <dt><a href="#digest">digest(options)</a> ⇒ <code>Buffer</code></dt>
@@ -661,7 +659,7 @@ We're very happy to have your contributions in Speakeasy.
 
 **Contributing code** — Just run `npm run lint` to check everything and make sure to test your code! Next, make a pull request to this repo.
 
-**Filing an issue** — Submit issues to the [GitHub Issues][issues] page.
+**Filing an issue** — Submit issues to the [GitHub Issues](https://github.com/levminer/speakeasy/issues) page.
 
 ## License
 

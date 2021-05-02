@@ -1,13 +1,17 @@
-# Authme
+# Speakeasy Contributing
 
 -   Hi! Thanks for contributing!
 
-# Rules
+## Rules
 
-- Use ESLint
-- Use Prettier
-- Use snake_case
+-   Use ESLint
+-   Use Prettier
+-   Use snake_case
 
-# Summary
+## Before the PR
+
+-   Run `npm run lint`
+
+## Summary
 
 -   Fell free to make that PR!
