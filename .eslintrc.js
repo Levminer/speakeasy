@@ -5,7 +5,7 @@ module.exports = {
 		es2021: true,
 		node: true,
 	},
-	extends: ["standard", "prettier", "plugin:node/recommended"],
+	extends: ["standard", "eslint:recommended", "plugin:node/recommended", "plugin:promise/recommended", "plugin:prettier/recommended"],
 	plugins: ["prettier"],
 	ignorePatterns: ["/node_modules/*"],
 	parserOptions: {
@@ -22,8 +22,6 @@ module.exports = {
 		"linebreak-style": ["warn", "windows"],
 		"prefer-arrow-callback": ["error"],
 		"prefer-template": ["error"],
-		"node/no-unpublished-require": ["off"],
-		"no-unused-vars": ["off"],
 		"no-undef": ["off"],
 	},
 }

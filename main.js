@@ -162,7 +162,7 @@ exports.hotp.verifyDelta = hotpVerifyDelta = (options) => {
 
 	// fail if token is not of correct length
 	if (token.length !== digits) {
-		return
+		throw new Error("@levminer/speakeasy - hotpVerifyDelta - Wrong toke length")
 	}
 
 	// parse token to integer
@@ -170,22 +170,20 @@ exports.hotp.verifyDelta = hotpVerifyDelta = (options) => {
 
 	// fail if token is NA
 	if (isNaN(token)) {
-		return
+		throw new Error("@levminer/speakeasy - hotpVerifyDelta - Token is not a number")
 	}
 
 	// loop from C to C + W inclusive
-
-	// this is a temporary fix becaouse wrong codes return a value too
-	// FIX THIS LATER
-	// eslint-disable-next-line no-unreachable-loop
 	for (i = counter; i <= counter + window; ++i) {
 		options.counter = i
 		// domain-specific constant-time comparison for integer codes
 		if (parseInt(exports.hotp(options), 10) === token) {
 			// found a matching code, return delta
 			return { delta: i - counter }
-		} else {
-			return { delta: i - counter }
+		}
+
+		if (counter + window === i) {
+			return { delta: NaN }
 		}
 	}
 
@@ -488,7 +486,7 @@ exports.generateSecret = generateSecret = (options) => {
 		SecretKey.otpauth_url = exports.otpauthURL({
 			secret: SecretKey.ascii,
 			label: name,
-			issuer: issuer,
+			issuer,
 		})
 	}
 
@@ -612,7 +610,7 @@ exports.otpauthURL = otpauthURL = (options) => {
 	if (Buffer.isBuffer(secret)) secret = base32.encode(secret)
 
 	// build query while validating
-	const query = { secret: secret }
+	const query = { secret }
 	if (issuer) {
 		query.issuer = issuer
 		label = `${issuer}:${label}`
@@ -662,6 +660,6 @@ exports.otpauthURL = otpauthURL = (options) => {
 		slashes: true,
 		hostname: type,
 		pathname: label,
-		query: query,
+		query,
 	})
 }
