@@ -181,10 +181,6 @@ exports.hotp.verifyDelta = hotpVerifyDelta = (options) => {
 			// found a matching code, return delta
 			return { delta: i - counter }
 		}
-
-		if (counter + window === i) {
-			return { delta: NaN }
-		}
 	}
 
 	// no codes have matched
