@@ -1,4 +1,4 @@
-const base32 = require("base32.js")
+const base32 = require("./base32")
 const crypto = require("crypto")
 const url = require("url")
 const util = require("util")
