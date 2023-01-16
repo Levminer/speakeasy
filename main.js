@@ -162,7 +162,7 @@ exports.hotp.verifyDelta = hotpVerifyDelta = (options) => {
 
 	// fail if token is not of correct length
 	if (token.length !== digits) {
-		throw new Error("@levminer/speakeasy - hotpVerifyDelta - Wrong toke length")
+		throw new Error("@levminer/speakeasy - hotpVerifyDelta - Wrong token length")
 	}
 
 	// parse token to integer
