@@ -291,7 +291,7 @@ exports.totp = totpGenerate = (options) => {
 	if (options.counter == null) options.counter = exports._counter(options)
 
 	// pass to hotp
-	return this.hotpGenerate(options)
+	return this.hotp(options)
 }
 
 // Alias time() for totp()
