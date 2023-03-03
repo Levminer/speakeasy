@@ -12,35 +12,35 @@ describe("Main", () => {
 
 	it("should generate a TOTP", () => {
 		const test = main.totp({
-			secret: 'secret',
+			secret: "secret",
 		})
 
-		assert.ok(test);
+		assert.ok(test)
 	})
 
 	it("should verify a TOTP", () => {
-		const secret = 'secret'
+		const secret = "secret"
 
 		const token = main.totp({
-			secret
+			secret,
 		})
 		const test = main.totp.verify({
 			secret,
-			token
+			token,
 		})
 
-		assert.ok(test);
+		assert.ok(test)
 	})
 
 	it("should verify a TOTP and calculate delta", () => {
-		const secret = 'secret'
+		const secret = "secret"
 
 		const token = main.totp({
-			secret
+			secret,
 		})
 		const test = main.totp.verifyDelta({
 			secret,
-			token
+			token,
 		})
 
 		assert.deepStrictEqual(test, { delta: 0 })
@@ -48,33 +48,33 @@ describe("Main", () => {
 
 	it("should generate a HOTP", () => {
 		const test = main.hotp({
-			secret: 'secret',
+			secret: "secret",
 		})
 
-		assert.ok(test);
+		assert.ok(test)
 	})
 
 	it("should verify a HOTP", () => {
-		const secret = 'secret'
+		const secret = "secret"
 
 		const token = main.hotp({
-			secret
+			secret,
 		})
 		const test = main.hotp.verify({
 			secret,
-			token
+			token,
 		})
 
-		assert.ok(test);
+		assert.ok(test)
 	})
 
 	it("should generate a URL and QR code", () => {
 		const secret = main.generateSecret()
 		const test = main.otpauthURL({
 			secret: secret.ascii,
-			label: "Name of Secret"
+			label: "Name of Secret",
 		})
 
-		assert.ok(test);
+		assert.ok(test)
 	})
 })
