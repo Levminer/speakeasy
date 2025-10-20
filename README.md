@@ -1,5 +1,6 @@
 # @levminer/speakeasy
 
+- 	This is still functional, but no longer maintained.
 -   This is a fork of the original speakeasy. I'm just modernized and fixed some stuff:
 
 1. Use Buffer.alloc() and Buffer.from() instead deprecated new Buffer
